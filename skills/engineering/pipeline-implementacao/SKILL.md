@@ -1,12 +1,12 @@
 ---
 name: pipeline-implementacao
-description: "Pipeline fixo de implementação: acha o próximo passo, cria a branch, entrevista com grill-with-docs, formaliza em spec, quebra em tickets e implementa. A partir da spec, roda sem pausas até o PR aberto; code review só roda se pedido explicitamente depois."
+description: "Pipeline fixo de implementação: acha o próximo passo, cria a branch, entrevista com grill-with-docs, formaliza em spec, quebra em tickets e implementa. A partir da spec, só pausa para pedir /compact (após spec e após tickets) e segue até o PR aberto; code review só roda se pedido explicitamente depois."
 disable-model-invocation: true
 ---
 
 # Pipeline de Implementação
 
-Sequência fixa para cada novo incremento do sistema, do "qual é o próximo passo" até o PR aberto. As etapas 1–3 fecham com o usuário antes de seguir; a partir da etapa 4 (spec) o pipeline roda sem parar para confirmação até o PR estar aberto na etapa 7.
+Sequência fixa para cada novo incremento do sistema, do "qual é o próximo passo" até o PR aberto. As etapas 1–3 fecham com o usuário antes de seguir; a partir da etapa 4 (spec) o pipeline só para para pedir `/compact` ao usuário (após a spec e após os tickets), e segue sem outras confirmações até o PR estar aberto na etapa 7.
 
 Assume um projeto com roadmap/backlog documentado (ex.: `docs/roadmap-mvp.md` ou equivalente), ADRs/glossário de domínio (ex.: `docs/adr/`, `docs/CONTEXT.md`) e as skills `grill-with-docs`, `to-spec`, `to-tickets` e `implement` disponíveis. Ajuste os nomes de arquivo abaixo à convenção de cada projeto.
 
@@ -25,9 +25,9 @@ Assume um projeto com roadmap/backlog documentado (ex.: `docs/roadmap-mvp.md` ou
 
 3. **Grilling com docs.** Invoque a skill `mattpocock-skills:grill-with-docs` sobre o passo confirmado. Ela entrevista o usuário e atualiza ADRs/glossário do projeto conforme necessário.
 
-4. **Spec.** Com as perguntas do grilling respondidas, invoque `mattpocock-skills:to-spec` para sintetizar a conversa numa spec e publicá-la no issue tracker. Sem pedir permissão, rode `/compact` em seguida e só depois siga para a etapa 5.
+4. **Spec.** Com as perguntas do grilling respondidas, invoque `mattpocock-skills:to-spec` para sintetizar a conversa numa spec e publicá-la no issue tracker. Em seguida, pare e peça ao usuário para rodar `/compact`; só siga para a etapa 5 depois da confirmação.
 
-5. **Tickets.** Invoque `mattpocock-skills:to-tickets` para quebrar a spec em tickets de tracer bullet, publicados no mesmo tracker. Sem pedir permissão, rode `/compact` em seguida e só depois siga para a etapa 6.
+5. **Tickets.** Invoque `mattpocock-skills:to-tickets` para quebrar a spec em tickets de tracer bullet, publicados no mesmo tracker. Em seguida, pare e peça ao usuário para rodar `/compact`; só siga para a etapa 6 depois da confirmação.
 
 6. **Implementação.** Invoque `mattpocock-skills:implement` para implementar os tickets, um após o outro, sem parar entre eles e sem rodar code review (ver guardrail abaixo). Ao terminar o último ticket da sequência, siga direto para a etapa 7 sem perguntar nada ao usuário.
 
